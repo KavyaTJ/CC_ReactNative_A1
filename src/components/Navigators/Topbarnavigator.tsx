@@ -1,70 +1,20 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { View,Text, StatusBar, SafeAreaView, FlatList,Image ,TouchableOpacity} from 'react-native';
 // import{Data} from "../Contacts"
 import { StyleSheet } from 'react-native';
 import { styles } from '../../Styles/Styles';
+import { DATA } from '../Data/data';
+
 
 const Tab = createMaterialTopTabNavigator();
-const onPress = () => alert("hello")
-export function Contacts(){
-type MaterialTopTabParams = {
-  Albums: undefined;
-  Contacts: undefined;
+const Stack=createNativeStackNavigator();
+// @ts-ignore
+
+export function Contacts({navigation,item }): JSX.Element{
   
-};  
-const DATA = [
-    {
-      name: 'Alice',
-      number: '9876567896',
-    },
-    {
-      name: 'Joe',
-      number: '9008678954',
-    },
-    {
-       name: 'Kavya',
-      number: '6345343489',
-    },
-     {
-       name: 'Karan',
-      number: '8989767890',
-    },
-     {
-       name: 'Daniel',
-      number: '8978900678',
-    },
-     {
-       name: 'Shravya',
-      number: '787454655',
-    },
-        {
-      name: 'Alice',
-      number: '9876567896',
-    },
-    {
-      name: 'Joe',
-      number: '9008678954',
-    },
-    {
-       name: 'Kavya',
-      number: '6345343489',
-    },
-     {
-       name: 'Karan',
-      number: '8989767890',
-    },
-     {
-       name: 'Daniel',
-      number: '8978900678',
-    },
-     {
-       name: 'Shravya',
-      number: '787454655',
-    },
-  ]
   
 return (
       <SafeAreaView >
@@ -73,14 +23,14 @@ return (
         <FlatList
           data={DATA}
           renderItem={({item,index})=>{
-            return <Text onPress={onPress} style={styles.listItem}>
+            return <TouchableOpacity onPress={() => navigation.navigate('Info', { item })} style={styles.listItem}>
              <View style={styles.avatar}>
         <Text  style={styles.letter}>{item.name.slice(0, 1).toUpperCase()}</Text>
       </View>
       <View>
               <Text  style={styles.name}>{item.name}</Text>
             <Text style={styles.number}>{item.number}</Text></View>
-            </Text>
+          </TouchableOpacity>
           }}
           keyExtractor={(item ,index)=> index.toString()}
         />
@@ -90,9 +40,10 @@ return (
     );
 
 }
-export function Albums(){
+//@ts-ignore
+export function Albums({navigation}){
     return(
-        <View style={styles.containers}>
+     <TouchableOpacity onPress={() => navigation.navigate('AlbumInfo')} style={styles.containers}>
      <Image 
  style={styles.img}
   source={{
@@ -177,14 +128,16 @@ style={styles.img}
     
   }}
 />
-</View>
+</TouchableOpacity>
  
     )
 
 }
 function MyTabs() {
   return (
-    <SafeAreaView>    <Tab.Navigator>
+    <SafeAreaView>    
+      
+      <Tab.Navigator>
       initialRouteName="Feed"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
